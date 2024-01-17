@@ -27,6 +27,10 @@ export function getSortedPostsData(){
   return allPostsData.sort((a, b) => a.date < b.date ? 1 : -1)
 }
 
+export function getFilteredSortedPostsData(query: string){
+  return getSortedPostsData().filter(post => post.title.includes(query))
+}
+
 export async function getPostData(id: string) {
   const fullPath = path.join(postsDirectory, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -34,17 +38,17 @@ export async function getPostData(id: string) {
   const matterResult = matter(fileContents)
 
   const processedContent = await remark()
-      .use(html)
-      .process(matterResult.content)
+    .use(html)
+    .process(matterResult.content)
 
   const contentHtml = processedContent.toString()
 
   const blogPostWithHTML: BlogPost & { contentHtml: string } = {
-      id,
-      title: matterResult.data.title,
-      date: matterResult.data.date,
-      thumbnail: matterResult.data.thumbnailSource,
-      contentHtml,
+    id,
+    title: matterResult.data.title,
+    date: matterResult.data.date,
+    thumbnail: matterResult.data.thumbnailSource,
+    contentHtml,
   }
   return blogPostWithHTML
 }

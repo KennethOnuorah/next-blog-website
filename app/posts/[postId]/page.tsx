@@ -1,6 +1,6 @@
 import { Metadata } from "next"
-import Link from "next/link"
 import { notFound } from "next/navigation"
+import Link from "next/link"
 
 import getFormattedDate from "@/lib/getFormattedDate"
 import { getPostData, getSortedPostsData } from "@/lib/posts"
