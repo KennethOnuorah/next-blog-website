@@ -5,8 +5,8 @@ export default function Posts() {
   const posts = getSortedPostsData()
 
   return (
-    <section className=" mt-6 mx-auto max-w-2xl">
-      <h2 className=" text-4xl text-center font-bold text-black/90">
+    <section className="mt-6 mx-auto max-w-2xl">
+      <h2 className="text-4xl text-center font-bold text-black/90">
         Recent Posts
       </h2>
       <hr className="mt-6 mb-6"/>
