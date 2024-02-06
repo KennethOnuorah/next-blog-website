@@ -24,7 +24,7 @@ export default function SearchBar({
 
   useEffect(() => {
     if(!isMobileSearchButtonEnabled && onMobileDevice) searchBarRef.current?.focus()
-  }, [isMobileSearchButtonEnabled])
+  }, [isMobileSearchButtonEnabled, onMobileDevice])
 
   return (
     <input

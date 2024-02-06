@@ -4,3 +4,8 @@ type BlogPost = {
   date: string
   thumbnail: string
 }
+
+type Dimension = {
+  width: number
+  height: number
+}

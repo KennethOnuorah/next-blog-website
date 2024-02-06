@@ -4,11 +4,11 @@ import Link from "next/link"
 import { useState, useRef } from "react"
 import SearchBar from "./SearchBar"
 
-import getViewportDimensions from "@/lib/getViewportDimensions"
+import useViewportDimensions from "@/lib/useViewportDimensions"
 import { FaGithub, FaLinkedin, FaSearch } from 'react-icons/fa'
 
 export default function Navbar() {
-  const { width } = getViewportDimensions()
+  const { width } = useViewportDimensions()
 
   const onMobileDevice = width < 768
   const [isMobileSearchButtonEnabled, setIsMobileSearchButtonEnabled] = useState(onMobileDevice ? true : false)
