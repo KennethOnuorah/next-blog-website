@@ -8,4 +8,4 @@ This application uses the NPM packages [Front Matter](https://www.npmjs.com/pack
 ## **Screenshot**
 | Desktop | Mobile |
 |:---:|:---:|
-| ![readme_preview](docs/app_screenshot_desktop.png) | ![readme_preview](docs/app_screenshot_mobile.png)  |
+| ![readme_preview](docs/screenshot_desktop.png) | ![readme_preview](docs/screenshot_mobile.png)  |
