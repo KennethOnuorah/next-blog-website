@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation"
 import Link from "next/link"
-import Markdown from "markdown-to-jsx"
+import { notFound } from "next/navigation"
+import ThemedMarkdown from "./components/ThemedMarkdown"
 
 import getFormattedDate from "@/lib/getFormattedDate"
 import { getPostByName, getAllPosts } from "@/lib/posts"
@@ -60,7 +60,7 @@ export default async function PostPage({params: {postId}}: Props) {
           </Link>
         )}
       </div>
-      <Markdown>{content}</Markdown>
+      <ThemedMarkdown>{content}</ThemedMarkdown>
       <p className="mb-10">
         <Link className="flex gap-2 items-center" href="/">
           <Home />

@@ -3,9 +3,12 @@ import './globals.css'
 
 import Navbar from './components/Navbar'
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Kenneth's Blog",
   description: 'Created by Kenneth Onuorah',
+  icons: {
+    icon: '/favicon.png'
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
