@@ -8,8 +8,8 @@ function setter() {
   }
 }
 
-const getViewportDimensions = () => {
-  const [dimensions, setDimensions] = useState(setter())
+const useViewportDimensions = () => {
+  const [dimensions, setDimensions] = useState<Dimension>({width: 0, height: 0})
 
   useEffect(() => {
     function handleResize() {
@@ -19,7 +19,11 @@ const getViewportDimensions = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  useEffect(() => {
+    setDimensions(setter())
+  }, [])
+
   return dimensions
 }
 
-export default getViewportDimensions
+export default useViewportDimensions

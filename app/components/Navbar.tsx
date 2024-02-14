@@ -1,18 +1,34 @@
 "use client"
 
 import Link from "next/link"
-import { useState, useRef } from "react"
+import { useState, useEffect } from "react"
 import SearchBar from "./SearchBar"
+import useViewportDimensions from "@/lib/useViewportDimensions"
 
-import getViewportDimensions from "@/lib/getViewportDimensions"
-import { FaGithub, FaLinkedin, FaSearch } from 'react-icons/fa'
+import { FaGithub, FaSearch, FaMoon, FaSun } from 'react-icons/fa'
 
 export default function Navbar() {
-  const { width } = getViewportDimensions()
+  const { width } = useViewportDimensions()
 
   const onMobileDevice = width < 768
   const [isMobileSearchButtonEnabled, setIsMobileSearchButtonEnabled] = useState(onMobileDevice ? true : false)
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme")
+    if(theme === "dark") setDarkMode(true)
+  }, [])
+
+  useEffect(() => {
+    if(darkMode) {
+      document.documentElement.classList.add("dark")
+      localStorage.setItem("theme", "dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+    }
+  }, [darkMode])
 
   return (
     <nav className="bg-gray-600 p-4 sticky top-0 drop-shadow-xl z-10">
@@ -31,14 +47,14 @@ export default function Navbar() {
           >
             <FaSearch size={35}/>
           </button>
-          <Link 
-            className="text-white/90 hover:text-white" 
-            href="https://www.linkedin.com/in/kenneth-onuorah-64640419b/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            className="transition-all active:scale-75"
+            onClick={() => {
+              setDarkMode(!darkMode)
+            }}
           >
-            <FaLinkedin size={40}/>
-          </Link>
+            {darkMode ? <FaSun size={38}/> : <FaMoon size={38}/>}
+          </button>
           <Link 
             className="text-white/90 hover:text-white"
             href="https://github.com/KennethOnuorah/next-blog-website"
