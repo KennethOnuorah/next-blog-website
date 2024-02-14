@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Kenneth's Blog",
   description: 'Created by Kenneth Onuorah',
   icons: {
-    icon: '/favicon.png'
+    icon: '/icon.png'
   }
 }
 
