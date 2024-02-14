@@ -1,54 +1,58 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import { remark } from 'remark'
-import html from 'remark-html'
+import fm from 'front-matter'
 
-const postsDirectory = path.join(process.cwd(), 'posts')
-
-export function getSortedPostsData(){
-  const fileNames = fs.readdirSync(postsDirectory)
-
-  const allPostsData = fileNames.map((fileName) => {
-    const id = fileName.replace(/\.md$/, '')
-    
-    const fullPath = path.join(postsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const matterResult = matter(fileContents)
-
-    const blogPost: BlogPost = {
-        id,
-        title: matterResult.data.title,
-        date: matterResult.data.date,
-        thumbnail: matterResult.data.thumbnailSource
+type FileTree = {
+  "tree": [
+    {
+      "path": string 
     }
-    return blogPost
+  ]
+}
+
+export async function getPostByName(fileName: string): Promise<BlogPost | undefined> {
+  const res = await fetch(`https://raw.githubusercontent.com/KennethOnuorah/mdx-blogposts/main/posts/${fileName}`, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
   })
-  return allPostsData.sort((a, b) => a.date < b.date ? 1 : -1)
-}
+  if(!res.ok) return undefined
 
-export function getFilteredSortedPostsData(query: string){
-  return getSortedPostsData().filter(post => post.title.includes(query))
-}
+  const rawMarkdown = await res.text()
+  const metadata = fm<{ title: string, date: string, tags: string[], thumbnailSource: string}>(rawMarkdown)
+  const content = rawMarkdown.replace(`---\n${metadata.frontmatter!}\n---`, '')
+  const id = fileName.replace('.md', '')
 
-export async function getPostData(id: string) {
-  const fullPath = path.join(postsDirectory, `${id}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-  const matterResult = matter(fileContents)
-
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content)
-
-  const contentHtml = processedContent.toString()
-
-  const blogPostWithHTML: BlogPost & { contentHtml: string } = {
-    id,
-    title: matterResult.data.title,
-    date: matterResult.data.date,
-    thumbnail: matterResult.data.thumbnailSource,
-    contentHtml,
+  return {
+    meta: {
+      id,
+      title: metadata.attributes.title,
+      date: metadata.attributes.date,
+      tags: metadata.attributes.tags,
+      thumbnailSource: metadata.attributes.thumbnailSource
+    },
+    content: content
   }
-  return blogPostWithHTML
+}
+
+export async function getAllPosts(): Promise<PostMetadata[] | undefined>{
+  const res = await fetch('https://api.github.com/repos/KennethOnuorah/mdx-blogposts/git/trees/main?recursive=1', {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  })
+  if(!res.ok) return undefined
+  const repoFileTree: FileTree = await res.json()
+  const files = repoFileTree.tree.map(obj => obj.path).filter(path => path.endsWith('.md') && !path.startsWith("README"))
+  const posts: PostMetadata[] = []
+  for(const file of files){
+    const post = await getPostByName(file.replace('posts/', ''))
+    if(post){
+      const { meta } = post
+      posts.push(meta)
+    }
+  }
+  return posts.sort((a, b) => a.date < b.date ? 1 : -1)
 }

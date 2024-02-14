@@ -4,15 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'miro.medium.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 'st2.depositphotos.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 'pages.getthit.com'
+        hostname: 'raw.githubusercontent.com'
       },
     ]
   }

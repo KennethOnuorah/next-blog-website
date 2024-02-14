@@ -42,9 +42,11 @@ export default function SearchBar({
         setQuery(e.currentTarget.value)
         if(e.key === "Enter" && query !== "") {
           e.currentTarget.value = ""
+          searchBarRef.current?.blur()
           router.push(`/search?q=${query}`)
         }
       }}
+      autoComplete="off"
     />
   )
 }

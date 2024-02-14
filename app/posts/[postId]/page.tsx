@@ -1,63 +1,72 @@
-import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Markdown from "markdown-to-jsx"
 
 import getFormattedDate from "@/lib/getFormattedDate"
-import { getPostData, getSortedPostsData } from "@/lib/posts"
+import { getPostByName, getAllPosts } from "@/lib/posts"
 
-import { FaHome as Home } from "react-icons/fa";
+import { FaHome as Home } from "react-icons/fa"
 
-//Next goal: Add a search bar and some new articles
+export const revalidate = 0
 
-export function generateStaticParams(){
-  const posts = getSortedPostsData()
-  return posts.map(post => ({
+type Props = {
+  params: {
+    postId: string
+  }
+}
+
+export async function generateStaticParams() {
+  const res = await getAllPosts()
+  const posts = res!
+
+  return posts.map((post) => ({
     postId: post.id
   }))
 }
 
-export function generateMetadata({ params } : { params: { postId: string} }): Metadata {
-  const posts = getSortedPostsData()
-  const { postId } = params
+export async function generateMetadata({params: {postId}}: Props) {
+  const post = await getPostByName(`${postId}.md`)
 
-  const post = posts.find(post => post.id === postId)
-
-  if(!post) {
+  if (!post) {
     return {
-      title: "Post not found"
+      title: "Post not found",
     }
   }
   return {
-    title: post?.title,
+    title: post.meta.title,
   }
 }
 
-export default async function PostPage({ params } : { params: { postId: string} }) {
-  const posts = getSortedPostsData()
-  const { postId } = params
+export default async function PostPage({params: {postId}}: Props) {
+  const post = await getPostByName(`${postId}.md`)
 
-  if(!posts.find(post => post.id === postId)) notFound()
+  if (!post) notFound
 
-  const {title, date, contentHtml} = await getPostData(postId)
-  const publishedDate = getFormattedDate(date)
+  const {meta, content} = post!
+  const publishedDate = getFormattedDate(meta.date)
 
   return (
-    <main className="px-6 prose prose-xl mx-auto">
-      <h1 className="text-3xl mt-8 mb-0">{title}</h1>
-      <p className="mt-0 italic">
-        {publishedDate}
-      </p>
-      <article>
-        <section dangerouslySetInnerHTML={{ __html: contentHtml }} />
-        <p>
-          <Link href="/">
-            <div className=" flex items-center gap-1">
-              <Home size={20}/>
-              Back to Home
-            </div>
+    <main className="px-6 prose prose-xl mx-auto dark:prose-invert">
+      <h2 className="text-4xl text-center mt-12 mb-4 font-bold sm:text-left">{meta.title}</h2>
+      <p className="text-2xl text-center italic text-gray-500 sm:text-left">{publishedDate}</p>
+      <div className="flex justify-center gap-2 mb-6 sm:justify-start">
+        {meta.tags.map((tag, index) => 
+          <Link  
+            key={index}
+            href={`/tags/${tag}`} 
+            className="no-underline text-xs px-2 py-1 bg-gray-200 rounded-full hover:underline dark:bg-gray-600 dark:text-white"
+          >
+            {tag}
           </Link>
-        </p>
-      </article>
+        )}
+      </div>
+      <Markdown>{content}</Markdown>
+      <p className="mb-10">
+        <Link className="flex gap-2 items-center" href="/">
+          <Home />
+          Back to Home
+        </Link>
+      </p>
     </main>
   )
 }
