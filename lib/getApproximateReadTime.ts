@@ -8,7 +8,7 @@ export default function getApproximateReadTime(content: string): string {
   const totalReadTime = (wordLength / AVERAGE_WPM) + periodPauseTime + commaPauseTime
 
   if(totalReadTime >= 1){
-    return `${totalReadTime.toFixed(1)} min read`
+    return `${Math.round(totalReadTime)} min read`
   }else{
     const seconds = parseFloat(totalReadTime.toFixed(1)) * 60
     return `${(seconds)} sec read`
