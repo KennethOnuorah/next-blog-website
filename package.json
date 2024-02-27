@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.11",
     "front-matter": "^4.0.2",
     "highlight.js": "^11.9.0",
     "markdown-to-jsx": "^7.4.1",

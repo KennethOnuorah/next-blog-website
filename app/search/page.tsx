@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { getAllPosts } from "@/lib/posts"
 
-import SearchResults from "./components/SearchResults"
+import RelatedResults from "../components/RelatedResults"
 
 export function generateMetadata({ searchParams } : { searchParams: { q: string} }): Metadata {
   const { q } = searchParams
@@ -31,7 +31,7 @@ export default async function SearchPage({ searchParams } : { searchParams: { q:
       <h1 className="text-3xl mt-8 mb-0 font-bold text-center dark:text-white">
         {searchResultPosts?.length} result{searchResultPosts?.length !== 1 && 's'} found
       </h1>
-      <SearchResults posts={searchResultPosts!}/>
+      <RelatedResults posts={searchResultPosts!} query={searchResultPosts!.length >= 1}/>
     </main>
   )
 }

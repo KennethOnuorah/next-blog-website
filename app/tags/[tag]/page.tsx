@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import RelatedArticles from "./components/RelatedArticles";
+import RelatedResults from "@/app/components/RelatedResults";
 import { getAllPosts } from "@/lib/posts";
 
 type Props = {
@@ -24,7 +24,7 @@ export default async function TagPage({params: { tag }}: Props) {
       <h1 className="text-3xl mt-8 mb-0 font-bold text-center dark:text-white">
         {posts.length > 0 ? `Related articles with tag: "${tag.replace("%20", ' ')}"` : 'This tag does not exist'}
       </h1>
-      <RelatedArticles posts={posts}/>
+      <RelatedResults posts={posts} query={posts.length > 0}/>
     </main>
   )
 }

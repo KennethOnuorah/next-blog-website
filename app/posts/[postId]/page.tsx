@@ -9,8 +9,6 @@ import { getPostByName, getAllPosts } from "@/lib/posts"
 import { FaHome as Home } from "react-icons/fa"
 import { FaRegClock as Time } from 'react-icons/fa6'
 
-export const revalidate = 0
-
 type Props = {
   params: {
     postId: string
