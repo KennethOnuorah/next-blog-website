@@ -27,7 +27,7 @@ export default async function Posts({ currentPage, sortBy } : Props) {
       <ToolForm/>
       <hr className="mb-6 dark:border-gray-500"/>
       <ul className="w-full mb-4 list-none">
-        {paginatedPosts[JSON.parse(currentPage) - 1].map((post) => (
+        {paginatedPosts[parseInt(currentPage) - 1]?.map((post) => (
           <ListItem key={post.id} post={post} />
         ))}
       </ul>

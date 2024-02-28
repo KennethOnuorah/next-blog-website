@@ -20,7 +20,7 @@ export default function RelatedResults({ posts, query, currentPage }: Props) {
         <hr className="mt-4 dark:border-gray-500"/>
         {query ? 
           <ul className="w-full mb-4">
-            {paginatedPosts[JSON.parse(currentPage) - 1].map(post => <ListItem key={post.id} post={post}/>)}
+            {paginatedPosts[parseInt(currentPage) - 1]?.map(post => <ListItem key={post.id} post={post}/>)}
           </ul> :
           <h1 className="mt-12 text-center text-4xl text-gray-500">
             ¯\_(ツ)_/¯

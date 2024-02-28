@@ -16,8 +16,8 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const res = await getAllPosts('recent')
-  const posts = res!
+  const res = await getAllPosts('recent') as PostMetadata[]
+  const posts = res
 
   return posts.map((post) => ({
     postId: post.id
