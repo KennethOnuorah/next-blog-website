@@ -15,7 +15,7 @@
     "front-matter": "^4.0.2",
     "highlight.js": "^11.9.0",
     "markdown-to-jsx": "^7.4.1",
-    "next": "14.0.4",
+    "next": "^14.0.5-canary.60",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
