@@ -19,6 +19,7 @@ export default function RefreshStatusText({ pending }: Props) {
   useEffect(() => {
     if(!pending) return
     localStorage.setItem('dateLastUpdated', new Date().getTime().toString())
+    setDateLastUpdated(JSON.parse(localStorage.getItem('dateLastUpdated')!) as number)
   }, [pending])
 
   return pending ? "Fetching new posts..." : isMounted ? getElapsedTime(dateLastUpdated) : 'Please wait...'

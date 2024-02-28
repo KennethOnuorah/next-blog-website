@@ -38,7 +38,12 @@ export default function ToolForm() {
   )
 
   return (
-    <form action={refreshFeed} className="flex justify-between items-center">
+    <form 
+      action={async() => {
+        await refreshFeed()
+      }} 
+      className="flex justify-between items-center"
+    >
       <button
         ref={filterRef}
         name="filter"
