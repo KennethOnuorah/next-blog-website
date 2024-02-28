@@ -17,7 +17,7 @@ export default function ToolForm() {
 
   const [filtersOpened, setFiltersOpened] = useState(false)
   const [currentFilter, setCurentFilter] = useState<SortingMethod>(
-    searchParams!.has("filter") ? searchParams!.get("filter") as SortingMethod : 'recent'
+    searchParams!.has("sortBy") ? searchParams!.get("sortBy") as SortingMethod : 'recent'
   )
   const filterOptions: {[key: string]: SortingMethod} = {
     "Sort by Recent": 'recent',
@@ -63,7 +63,7 @@ export default function ToolForm() {
         disableScrollLock
       >
         <h3 className="p-2 text-center font-bold">
-          All Filters
+          All Sorts
         </h3>
         <hr />
         <div className="flex flex-col text-center mx-2 mt-2">

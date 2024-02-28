@@ -9,6 +9,18 @@ type Props = {
   }
 }
 
+export async function generateStaticParams () {
+  const posts = await getAllPosts('recent') as PostMetadata[]
+
+  const tagGroups = posts.map(r => r.tags)
+  const joinedTags = tagGroups.map(group => group.join(',')).join(',').split(',')
+  const uniqueJoinedTags = joinedTags.filter((tag, index, array) => array.indexOf(tag) === index)
+
+  return uniqueJoinedTags.map((tag) => ({
+    tag: tag
+  }))
+}
+
 export function generateMetadata({params: { tag }}: Props): Metadata {
   return {
     title: `Tag: "${tag.replace("%20", ' ')}"`,

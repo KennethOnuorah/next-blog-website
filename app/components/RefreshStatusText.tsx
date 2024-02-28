@@ -12,7 +12,11 @@ export default function RefreshStatusText({ pending }: Props) {
   const [dateLastUpdated, setDateLastUpdated] = useState(0)
 
   useEffect(() => {
-    setDateLastUpdated(JSON.parse(localStorage.getItem('dateLastUpdated')!) as number)
+    if(localStorage.getItem('dateLastUpdated') === null) {
+      localStorage.setItem('dateLastUpdated', new Date().getTime().toString())
+    }else{
+      setDateLastUpdated(JSON.parse(localStorage.getItem('dateLastUpdated')!) as number)
+    }
     setIsMounted(true)
   }, [])
 

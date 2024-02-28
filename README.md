@@ -1,4 +1,4 @@
-# **Blog v.1.3.0**
+# **Blog v.1.3.1**
 
 ## **About the Project**
 
