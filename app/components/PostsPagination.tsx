@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { usePathname } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { Pagination } from "@mui/material"
 
@@ -14,13 +15,26 @@ type Props = {
 export default function PostsPagination({ pageCount, defaultPage } : Props) {
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const [currentPage, setCurrentPage] = useState(searchParams.has('page') ? searchParams.get('page') as string : '1')
   
-  useEffect(() => {
+  const addQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+ 
+      return params.toString()
+    },
+    [searchParams]
+  )
 
-  }, [pathname])
+  useEffect(() => {
+    const page = searchParams.has('page') ? searchParams.get('page') as string : '1'
+    setCurrentPage(page)
+  }, [searchParams])
 
   const handlePageChange = (e: React.ChangeEvent<unknown>, value: number) => {
-    router.push(`/?page=${value}`)
+    router.push(pathname + '?' + addQueryString('page', value.toString()))
   }
 
   return (
@@ -28,6 +42,7 @@ export default function PostsPagination({ pageCount, defaultPage } : Props) {
       <Pagination 
         count={pageCount}
         defaultPage={JSON.parse(defaultPage)}
+        page={JSON.parse(currentPage)}
         sx={{
           ul: {
             "& .MuiPaginationItem-root": {

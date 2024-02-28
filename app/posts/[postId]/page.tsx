@@ -16,7 +16,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const res = await getAllPosts()
+  const res = await getAllPosts('recent')
   const posts = res!
 
   return posts.map((post) => ({

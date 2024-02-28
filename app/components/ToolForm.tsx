@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { refreshFeed } from "@/actions/actions"
-import { IoFilter as Filter } from "react-icons/io5"
+import { IoFilter as Sort } from "react-icons/io5"
 
 import { Menu } from "@mui/material"
 
@@ -16,10 +16,10 @@ export default function ToolForm() {
   const searchParams = useSearchParams()
 
   const [filtersOpened, setFiltersOpened] = useState(false)
-  const [currentFilter, setCurentFilter] = useState<Filter>(
-    searchParams.has("filter") ? searchParams.get("filter") as Filter : 'recent'
+  const [currentFilter, setCurentFilter] = useState<SortingMethod>(
+    searchParams.has("filter") ? searchParams.get("filter") as SortingMethod : 'recent'
   )
-  const filterOptions: {[key: string]: Filter} = {
+  const filterOptions: {[key: string]: SortingMethod} = {
     "Sort by Recent": 'recent',
     "Sort by Oldest": 'oldest',
     "Sort by A-Z": 'a_z',
@@ -42,14 +42,14 @@ export default function ToolForm() {
       <button
         ref={filterRef}
         name="filter"
-        title="Filter results" 
+        title="Sort results" 
         className="p-2 text-gray-500 dark:hover:text-gray-100"
         onClick={(e) => {
           e.preventDefault()
           setFiltersOpened(!filtersOpened)
         }}
       >
-        <Filter size={25}/>
+        <Sort size={25}/>
       </button>
       <Menu
         open={filtersOpened}
@@ -69,8 +69,8 @@ export default function ToolForm() {
               className="hover:bg-gray-200 p-2 rounded-md" 
               onClick={(e) => {
                 setFiltersOpened(false)
-                setCurentFilter(e.currentTarget.id as Filter)
-                router.push(pathname + '?' + addQueryString('filter', option[1]))
+                setCurentFilter(e.currentTarget.id as SortingMethod)
+                router.push(pathname + '?' + addQueryString('sortBy', option[1]))
               }}
             >
               {option[0]} {currentFilter === option[1] && '✅'}

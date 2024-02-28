@@ -1,17 +1,17 @@
 import ListItem from "./ListItem"
 import ToolForm from "./ToolForm"
-
-import { getAllPosts } from "@/lib/posts"
 import PostsPagination from "./PostsPagination"
 
+import { getAllPosts } from "@/lib/posts"
 import getPaginatedPosts from "@/lib/getPaginatedPosts"
 
 type Props = {
   currentPage: string
+  sortBy: SortingMethod
 }
 
-export default async function Posts({ currentPage } : Props) {
-  const posts = await getAllPosts()
+export default async function Posts({ currentPage, sortBy } : Props) {
+  const posts = await getAllPosts(sortBy)
   if (!posts) return <p>Sorry, No Blog Posts Yet!</p>
 
   const postsPerPage = 4

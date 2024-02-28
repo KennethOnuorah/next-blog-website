@@ -1,11 +1,12 @@
 import { useFormStatus } from "react-dom"
+import RefreshStatusText from "./RefreshStatusText"
 
 export default function RefreshStatus() {
   const { pending, } = useFormStatus()
 
   return (
     <h3 className="italic text-gray-500">
-      {pending ? "Please wait..." : "Last updated a moment ago"}
+      <RefreshStatusText pending={pending}/>
     </h3>
   )
 }

@@ -16,4 +16,4 @@ type Dimension = {
   height: number
 }
 
-type Filter = 'recent' | 'oldest' | 'a_z' | 'z_a'
+type SortingMethod = 'recent' | 'oldest' | 'a_z' | 'z_a'

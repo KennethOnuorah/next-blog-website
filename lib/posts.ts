@@ -8,6 +8,13 @@ type FileTree = {
   ]
 }
 
+const sortingMethods: {[key: string]: (a: PostMetadata, b: PostMetadata) => number} = {
+  'recent': (a: PostMetadata, b: PostMetadata) => a.date < b.date ? 1 : -1,
+  'oldest': (a: PostMetadata, b: PostMetadata) => a.date > b.date ? 1 : -1,
+  'a_z': (a: PostMetadata, b: PostMetadata) => a.title.localeCompare(b.title),
+  'z_a': (a: PostMetadata, b: PostMetadata) => b.title.localeCompare(a.title),
+}
+
 export async function getPostByName(fileName: string): Promise<BlogPost | undefined> {
   const res = await fetch(`https://raw.githubusercontent.com/KennethOnuorah/mdx-blogposts/main/posts/${fileName}`, {
     headers: {
@@ -35,7 +42,7 @@ export async function getPostByName(fileName: string): Promise<BlogPost | undefi
   }
 }
 
-export async function getAllPosts(): Promise<PostMetadata[] | undefined>{
+export async function getAllPosts(sortingMethod: SortingMethod): Promise<PostMetadata[] | undefined>{
   const res = await fetch('https://api.github.com/repos/KennethOnuorah/mdx-blogposts/git/trees/main?recursive=1', {
     headers: {
       Accept: 'application/vnd.github+json',
@@ -54,5 +61,5 @@ export async function getAllPosts(): Promise<PostMetadata[] | undefined>{
       posts.push(meta)
     }
   }
-  return posts.sort((a, b) => a.date < b.date ? 1 : -1)
+  return posts.sort(sortingMethods[sortingMethod])
 }
