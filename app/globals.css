@@ -17,5 +17,6 @@ input[type="search"]::-webkit-search-cancel-button:hover {
   cursor: pointer;
 }
 * {
+  scroll-behavior: smooth;
   @apply transition-all duration-200
 }

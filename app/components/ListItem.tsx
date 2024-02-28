@@ -34,7 +34,7 @@ export default function ListItem({ post }: Props) {
               Date posted: <em>{formattedDate}</em>
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {tags.map((tag, index) => 
               <Link  
                 key={index}
