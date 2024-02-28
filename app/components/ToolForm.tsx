@@ -17,7 +17,7 @@ export default function ToolForm() {
 
   const [filtersOpened, setFiltersOpened] = useState(false)
   const [currentFilter, setCurentFilter] = useState<SortingMethod>(
-    searchParams.has("filter") ? searchParams.get("filter") as SortingMethod : 'recent'
+    searchParams!.has("filter") ? searchParams!.get("filter") as SortingMethod : 'recent'
   )
   const filterOptions: {[key: string]: SortingMethod} = {
     "Sort by Recent": 'recent',
@@ -29,7 +29,7 @@ export default function ToolForm() {
 
   const addQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams!.toString())
       params.set(name, value)
  
       return params.toString()
