@@ -1,8 +1,8 @@
-# **Blog v.1.2.1**
+# **Blog v.1.3.0**
 
 ## **About the Project**
 
-A blogging web application where users can see blog articles I post in the form of prose markdown files. Contains searching functionality, live blog post fetching, theme toggling, and full screen responsiveness.
+A blogging web application where users can see blog articles I post in the form of prose markdown files. Contains searching & sorting functionality, live blog post fetching, pagination, theme toggling, and full screen responsiveness.
 
 Topics that I discuss on this blog include programming tutorials & best practices and book reviews.
 

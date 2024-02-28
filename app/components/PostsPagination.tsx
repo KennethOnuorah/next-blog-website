@@ -16,11 +16,11 @@ export default function PostsPagination({ pageCount, defaultPage } : Props) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [currentPage, setCurrentPage] = useState(searchParams.has('page') ? searchParams.get('page') as string : '1')
+  const [currentPage, setCurrentPage] = useState(searchParams!.has('page') ? searchParams!.get('page') as string : '1')
   
   const addQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams!.toString())
       params.set(name, value)
  
       return params.toString()
@@ -29,7 +29,7 @@ export default function PostsPagination({ pageCount, defaultPage } : Props) {
   )
 
   useEffect(() => {
-    const page = searchParams.has('page') ? searchParams.get('page') as string : '1'
+    const page = searchParams!.has('page') ? searchParams!.get('page') as string : '1'
     setCurrentPage(page)
   }, [searchParams])
 
